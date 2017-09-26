@@ -29,7 +29,7 @@ const personLookup = function (input) {
         const personFirstName = result.rows[0].first_name
         const personLastName = result.rows[0].last_name
         const doB = result.rows[0].birthdate.toDateString();
-        console.log(`Found person(s) by the name '${input}':`)
+        console.log(`Found 1 person(s) by the name '${input}':`)
         console.log(`- ${personId}: ${personFirstName} ${personLastName}, born ${doB}`);
         client.end();
       }
