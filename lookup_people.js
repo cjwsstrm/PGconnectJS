@@ -11,7 +11,9 @@ const client = new pg.Client({
   ssl      : settings.ssl
 });
 
-const personLookup = function (input) {
+
+
+const personLookup = function (input,formatResult) {
   console.log("searching...");
   client.connect((err) => {
     if (err) {
@@ -19,28 +21,28 @@ const personLookup = function (input) {
     }
     client.query("SELECT * FROM famous_people WHERE last_name = $1",input, (err, result) => {
       if (err) {
-        return console.error("error running query", err);
+         console.error("error running query", err);
       };
-      if (!result.rows[0]) {
-        console.log("None by that name found");
-        client.end();
-      } else {
-        const personId = result.rows[0].id
-        const personFirstName = result.rows[0].first_name
-        const personLastName = result.rows[0].last_name
-        const doB = result.rows[0].birthdate.toDateString();
-        console.log(`Found 1 person(s) by the name '${input}':`)
-        console.log(`- ${personId}: ${personFirstName} ${personLastName}, born ${doB}`);
-        client.end();
-      }
+      formatResult(result);
+      client.end();
     });
   });
 };
-personLookup(process.argv.slice(2));
-//
-// node lookup_people.js Lincoln
-// Searching ...
-// Found 1 person(s) by the name 'Lincoln':
-// - 1: Abraham Lincoln, born '1809-02-12'
-// SELECT * FROM famous_people WHERE last_name = input
-// Select * from public.tbl_user;
+
+const resultFormatter = function(result) {
+  if (result.rows[0]) {
+    const personId = result.rows[0].id
+    const personFirstName = result.rows[0].first_name
+    const personLastName = result.rows[0].last_name
+    const doB = result.rows[0].birthdate.toDateString();
+    console.log(`Found 1 person(s) by the name '${personLastName}':`)
+    console.log(`- ${personId}: ${personFirstName} ${personLastName}, born ${doB}`);
+  } else {
+    console.log("None by that name found");
+  }
+}
+
+personLookup(process.argv.slice(2),resultFormatter);
+
+//Implement iteration over the rows, forEach or other, to
+//allow for multiple queries at once.
