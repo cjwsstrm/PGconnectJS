@@ -25,8 +25,12 @@ const personLookup = function (input) {
         console.log("None by that name found");
         client.end();
       } else {
+        const personId = result.rows[0].id
+        const personFirstName = result.rows[0].first_name
+        const personLastName = result.rows[0].last_name
+        const doB = result.rows[0].birthdate.toDateString();
         console.log(`Found person(s) by the name '${input}':`)
-        console.log(`- ${result.rows[0].id}: ${result.rows[0].first_name} ${result.rows[0].last_name}, born ${result.rows[0].birthdate}`);
+        console.log(`- ${personId}: ${personFirstName} ${personLastName}, born ${doB}`);
         client.end();
       }
     });
