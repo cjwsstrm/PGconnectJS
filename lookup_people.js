@@ -12,7 +12,6 @@ const client = new pg.Client({
 });
 
 
-
 const personLookup = function (input,formatResult) {
   console.log("searching...");
   client.connect((err) => {
