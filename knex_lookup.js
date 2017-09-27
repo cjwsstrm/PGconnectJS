@@ -27,6 +27,7 @@ const personLookup = function (args, formatResult) {
       }
     })
   });
+  knex.destroy();
 };
 
 const resultFormatter = function(result) {
