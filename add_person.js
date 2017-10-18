@@ -4,12 +4,12 @@ const fs = require("fs");
 const knex = require('knex')({
   client: 'pg',
   connection: {
-    "user": "development",
-    "password": "development",
-    "database": "vagrant",
-    "hostname": "localhost",
-    "port": 5432,
-    "ssl": true
+    "user"     : settings.user,
+    "password" : settings.password,
+    "database" : settings.database,
+    "host"     : settings.hostname,
+    "port"     : settings.port,
+    "ssl"      : settings.ssl
   }
 });
 
